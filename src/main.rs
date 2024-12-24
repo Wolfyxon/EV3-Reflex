@@ -32,6 +32,7 @@ fn main() -> Ev3Result<()> {
 
             led.set_color(Led::COLOR_YELLOW)?;
             sound::tone(1000.0, 200)?.wait()?;
+            led.set_color(Led::COLOR_OFF)?;
 
         } else {
             sleep(rng.gen_range(0.0..2.0));
