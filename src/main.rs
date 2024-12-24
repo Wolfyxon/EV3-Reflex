@@ -35,11 +35,12 @@ fn main() -> Ev3Result<()> {
                 if touch.get_pressed_state()? {
                     led.set_color(Led::COLOR_YELLOW)?;
                     sound::tone(1000.0, 200)?.wait()?;
-                    led.set_color(Led::COLOR_OFF)?;
-
+                    
                     break;
                 }
             }
+
+            led.set_color(Led::COLOR_OFF)?;
         } else {
             sleep(rng.gen_range(0.0..2.0));
         }
