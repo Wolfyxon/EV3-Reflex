@@ -35,7 +35,7 @@ fn main() -> Ev3Result<()> {
                 if touch.get_pressed_state()? {
                     led.set_color(Led::COLOR_YELLOW)?;
                     
-                    if Instant::now().duration_since(start).as_secs_f32() < 0.2 {
+                    if Instant::now().duration_since(start).as_secs_f32() < 0.25 {
                         sound::tone_sequence(&[
                             (500.0, 100, 0),
                             (600.0, 100, 0),
