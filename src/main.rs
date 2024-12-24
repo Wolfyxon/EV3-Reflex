@@ -24,7 +24,7 @@ fn main() -> Ev3Result<()> {
 
         sleep(rng.gen_range(0.0..2.0), &touch, &led);
 
-        if rng.gen_bool(0.2) {
+        if rng.gen_bool(0.25) {
             led.set_color(Led::COLOR_RED)?;
             sound::tone(500.0, 10)?;
 
@@ -64,7 +64,7 @@ fn check_bad_press(touch: &TouchSensor, led: &Led) {
         sound::tone_sequence(&[
             (800.0, 200, 0),
             (500.0, 200, 0),
-            (200.0, 200, 0),
+            (300.0, 200, 0),
         ]).unwrap().wait().unwrap();
 
         sleep_unchecked(1.0);
