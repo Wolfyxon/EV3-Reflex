@@ -34,7 +34,7 @@ fn main() -> Ev3Result<()> {
             while Instant::now().duration_since(start) < duration {
                 if touch.get_pressed_state()? {
                     led.set_color(Led::COLOR_YELLOW)?;
-                    sound::tone(1000.0, 200)?.wait()?;
+                    sound::tone(1000.0, 100)?.wait()?;
                     
                     break;
                 }
