@@ -1,4 +1,4 @@
-use std::{thread, time::Duration};
+use std::{thread, time::{Duration, Instant}};
 
 use ev3dev_lang_rust::{sensors::TouchSensor, sound, Ev3Result, Led};
 use rand::Rng;
@@ -28,12 +28,18 @@ fn main() -> Ev3Result<()> {
             led.set_color(Led::COLOR_RED)?;
             sound::tone(500.0, 10)?;
 
-            while !touch.get_pressed_state()? {}
+            let start = Instant::now();
+            let end = start + Duration::from_secs(2);
 
-            led.set_color(Led::COLOR_YELLOW)?;
-            sound::tone(1000.0, 200)?.wait()?;
-            led.set_color(Led::COLOR_OFF)?;
+            while Instant::now() < end {
+                if touch.get_pressed_state()? {
+                    led.set_color(Led::COLOR_YELLOW)?;
+                    sound::tone(1000.0, 200)?.wait()?;
+                    led.set_color(Led::COLOR_OFF)?;
 
+                    break;
+                }
+            }
         } else {
             sleep(rng.gen_range(0.0..2.0));
         }
