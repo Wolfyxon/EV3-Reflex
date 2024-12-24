@@ -16,13 +16,13 @@ fn main() -> Ev3Result<()> {
     loop {
         for _ in 0..rng.gen_range(0..3) {
             led.set_color(Led::COLOR_GREEN)?;
-            sleep(0.1);
+            sleep(0.1, &touch, &led);
             led.set_color(Led::COLOR_OFF)?;
             
-            sleep(rng.gen_range(0.1..1.0));
+            sleep(rng.gen_range(0.1..1.0), &touch, &led);
         }
 
-        sleep(rng.gen_range(0.0..2.0));
+        sleep(rng.gen_range(0.0..2.0), &touch, &led);
 
         if rng.gen_bool(0.2) {
             led.set_color(Led::COLOR_RED)?;
@@ -52,7 +52,7 @@ fn main() -> Ev3Result<()> {
 
             led.set_color(Led::COLOR_OFF)?;
         } else {
-            sleep(rng.gen_range(0.0..2.0));
+            sleep(rng.gen_range(0.0..2.0), &touch, &led);
         }
     }
 }
@@ -67,10 +67,20 @@ fn check_bad_press(touch: &TouchSensor, led: &Led) {
             (500.0, 300, 0),
         ]).unwrap().wait().unwrap();
 
+        sleep_unchecked(1.0);
+
         led.set_color(Led::COLOR_OFF).unwrap()
     }
 }
 
-fn sleep(duration: f32) {
+fn sleep(duration: f32, touch: &TouchSensor, led: &Led) {
+    let start = Instant::now();
+    
+    while Instant::now().duration_since(start).as_secs_f32() < duration {
+        check_bad_press(&touch, &led);
+    }
+}
+
+fn sleep_unchecked(duration: f32) {
     thread::sleep(Duration::from_secs_f32(duration));
 }
