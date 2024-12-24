@@ -63,8 +63,8 @@ fn check_bad_press(touch: &TouchSensor, led: &Led) {
         
         sound::tone_sequence(&[
             (800.0, 200, 0),
-            (500.0, 300, 0),
-            (500.0, 300, 0),
+            (500.0, 200, 0),
+            (200.0, 200, 0),
         ]).unwrap().wait().unwrap();
 
         sleep_unchecked(1.0);
