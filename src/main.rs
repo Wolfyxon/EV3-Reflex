@@ -24,7 +24,7 @@ fn main() -> Ev3Result<()> {
 
         sleep(rng.gen_range(0.0..2.0));
 
-        if rng.gen_bool(0.2) {
+        if rng.gen_bool(1.0) {
             led.set_color(Led::COLOR_RED)?;
             sound::tone(500.0, 10)?;
 
@@ -34,8 +34,18 @@ fn main() -> Ev3Result<()> {
             while Instant::now().duration_since(start) < duration {
                 if touch.get_pressed_state()? {
                     led.set_color(Led::COLOR_YELLOW)?;
-                    sound::tone(1000.0, 100)?.wait()?;
                     
+                    if Instant::now().duration_since(start).as_secs_f32() < 0.2 {
+                        sound::tone_sequence(&[
+                            (500.0, 100, 0),
+                            (600.0, 100, 0),
+                            (800.0, 100, 0),
+                            (1000.0, 200, 0),
+                        ])?.wait()?;
+                    } else {
+                        sound::tone(1000.0, 100)?.wait()?;
+                    }
+
                     break;
                 }
             }
