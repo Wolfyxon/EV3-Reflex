@@ -57,6 +57,20 @@ fn main() -> Ev3Result<()> {
     }
 }
 
+fn check_bad_press(touch: &TouchSensor, led: &Led) {
+    if touch.get_pressed_state().unwrap() {
+        led.set_color(Led::COLOR_AMBER).unwrap();
+        
+        sound::tone_sequence(&[
+            (800.0, 200, 0),
+            (500.0, 300, 0),
+            (500.0, 300, 0),
+        ]).unwrap().wait().unwrap();
+
+        led.set_color(Led::COLOR_OFF).unwrap()
+    }
+}
+
 fn sleep(duration: f32) {
     thread::sleep(Duration::from_secs_f32(duration));
 }
