@@ -24,7 +24,7 @@ fn main() -> Ev3Result<()> {
 
         sleep(rng.gen_range(0.0..2.0));
 
-        if rng.gen_bool(1.0) {
+        if rng.gen_bool(0.2) {
             led.set_color(Led::COLOR_RED)?;
             sound::tone(500.0, 10)?;
 
